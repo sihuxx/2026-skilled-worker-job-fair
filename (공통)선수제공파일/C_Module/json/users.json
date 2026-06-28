@@ -1,0 +1,37 @@
+[
+    {
+        "idx": 1,
+        "id": "admin",
+        "password": "1234",
+        "name": "관리자",
+        "type": "관리자"
+    },
+    {
+        "idx": 2,
+        "id": "user1",
+        "password": "1234",
+        "name": "회원일",
+        "type": "일반회원"
+    },
+    {
+        "idx": 3,
+        "id": "user2",
+        "password": "1234",
+        "name": "회원이",
+        "type": "일반회원"
+    },
+    {
+        "idx": 4,
+        "id": "user3",
+        "password": "1234",
+        "name": "회원삼",
+        "type": "일반회원"
+    },
+    {
+        "idx": 5,
+        "id": "user4",
+        "password": "1234",
+        "name": "회원사",
+        "type": "일반회원"
+    }
+]
