@@ -38,7 +38,7 @@ $user = ss();
         <ul class="nav__list">
           <li><a href="/">메인</a></li>
           <li><a href="/sub">박람회소개</a></li>
-          <li><a href="#">온라인채용면접</a></li>
+          <li><a href="/recruit">온라인채용면접</a></li>
           <li><a href="#gallery">우수기업</a></li>
           <li><a href="#">채용공고</a></li>
         </ul>

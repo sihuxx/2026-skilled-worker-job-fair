@@ -6,6 +6,9 @@ get("/", function () {
 get("/sub", function () {
   views("sub");
 });
+get("/recruit", function() {
+  views("recruit/recruit");
+});
 post("/login", function () {
   extract($_POST);
   $user = db::fetch("select * from users where id = '$id'");
