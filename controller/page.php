@@ -39,3 +39,8 @@ get("/logout", function () {
   session_destroy();
   move("/", "로그아웃 성공");
 });
+get("/api/companys", function() {
+  extract($_GET);
+  $companys = db::fetchAll("select * from companys where year(date) = $year and month(date) = $month order by date asc");
+  echo json_encode($companys);
+});
