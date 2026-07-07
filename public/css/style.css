@@ -750,3 +750,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, label:focus-visible 
 .notice-detail .img-box a {position: absolute;bottom: 10px;left: 10px;color: white;padding: 5px;background-color: #000000a5;backdrop-filter: blur(3px);font-size: 13px;border-radius: 5px;}
 .notice-detail .notice-info {display: flex;gap: 20px;align-items: end;}
 .type-tag {background-color: var(--blue-500);color: white;font-weight: bold;font-size: 15px;border-radius: 10px;}
+.status-content {width: 1000px;margin: 30px 0;}
+.status-content button {padding: 10px 15px;border-radius: 10px;background-color: #eee;border: 1px solid #333;}
+.status-content button:last-child {background-color: var(--blue-500);color: white;}

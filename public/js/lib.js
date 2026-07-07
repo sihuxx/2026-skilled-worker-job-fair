@@ -13,3 +13,11 @@ function hideModal(name) {
     $(`.${name}`).style.visibility = 'hidden'
     $(`.${name}`).style.opacity = 0
 }
+
+async function openChat(idx) {
+    const res = await fetch(`/addRoom?idx=${idx}`, {
+        method: "post",
+    })
+    const data = await res.json()
+    location.href = `/room/${data.idx}`
+}

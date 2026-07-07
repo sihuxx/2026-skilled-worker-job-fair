@@ -12,6 +12,9 @@ get("/recruit", function () {
 get("/recruit/{idx}", function ($idx) {
   views("recruit/detail", ["idx" => $idx]);
 });
+get("/room/{idx}", function ($idx) {
+  views("room", ["idx" => $idx]);
+});
 post("/login", function () {
   extract($_POST);
   $user = db::fetch("select * from users where id = '$id'");
@@ -83,9 +86,19 @@ post('/addNotice', function () {
 
   if ($image) {
     db::exec("insert into notices (title, des, image, type, company_idx) values ('$title', '$des', '$image', '$type', '$idx')");
-    // move("/recruit/$idx", "공지사항 추가 성공");
+    move("/recruit/$idx", "공지사항 추가 성공");
   } else {
     db::exec("insert into notices (title, des, type, company_idx) values ('$title', '$des', '$type', '$idx')");
-    // move("/recruit/$idx", "공지사항 추가 성공");
+    move("/recruit/$idx", "공지사항 추가 성공");
+  }
+});
+post("/addRoom", function () {
+  extract($_GET);
+  $room = db::fetch("select * from rooms where company_idx = '$idx'");
+  if ($room) {
+    echo json_encode($room);
+  } else {
+    db::exec("insert into rooms (company_idx) values ('$idx')");
+    echo json_encode($room);
   }
 });

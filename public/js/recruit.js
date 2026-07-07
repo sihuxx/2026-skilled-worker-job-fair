@@ -124,10 +124,6 @@ function checkTime() {
   }
 }
 
-function openChat(idx) {
-  location.href = `/chat/${idx}`
-}
-
 $("[name='file']").onchange = e => {
   const file = e.target.files[0]
   const allowed = ["png", "jpg"]

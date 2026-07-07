@@ -1,11 +1,23 @@
 <?php
 $company = db::fetch("select * from companys where idx = '$idx'");
 $notices = db::fetchAll("select * from notices where company_idx = '$idx' order by type desc, date desc");
+$today = date("Y-m-d");
+$time = date("H:i:s");
 $user = ss();
 ?>
 
 <section class="section detail-section">
   <div class="detail-content">
+    <div class="status-content">
+        <?php if($today < $company->date) { ?>
+          <button disabled>대기</button>
+        <?php } else if ($time >= $company->start_time && $time <= $company->end_time) { ?>
+          <button onclick="openChat(<?= $company->idx ?>)">개설</button>
+        <?php } else { ?>
+          <button disabled>종료</button>
+        <?php } ?>
+      <button>삭제</button>
+    </div>
     <div class="company">
       <img src="/asset/images/<?= $company->image ?>" alt="">
       <div class="company-info">

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- 생성 시간: 26-07-06 13:58
+-- 생성 시간: 26-07-07 13:53
 -- 서버 버전: 10.4.32-MariaDB
 -- PHP 버전: 8.2.12
 
@@ -30,7 +30,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `companys` (
   `idx` int(11) NOT NULL,
   `name` varchar(500) NOT NULL,
-  `des` varchar(500) NOT NULL,
+  `des` text NOT NULL,
   `image` varchar(500) NOT NULL,
   `date` date NOT NULL,
   `start_time` time NOT NULL,
@@ -282,7 +282,75 @@ INSERT INTO `companys` (`idx`, `name`, `des`, `image`, `date`, `start_time`, `en
 (237, '사이버 오딧 V12', '한 해의 기업 보안 사고를 결산하고 차년도 보안 거버넌스 수립을 돕는 감사 툴입니다.', '사이버 오딧 V12.png', '2026-12-29', '08:00:00', '10:30:00', 'IT'),
 (238, '퓨처 로보틱스 12', '빙판길에서도 안정적으로 보행하며 택배를 배송하는 4족 보행 라스트마일 로봇사입니다.', '퓨처 로보틱스 12.png', '2026-12-30', '09:00:00', '17:00:00', '제조'),
 (239, '그린 스페이스 하모니', '실내 가습 및 크리스마스 분위기를 연출하는 스마트 플랜테리어 리스(Wreath) 패키지입니다.', '그린 스페이스 하모니.png', '2026-12-31', '08:00:00', '16:00:00', '제조'),
-(240, '글로벌 비전 12', '해외 신년 축제 및 관광객을 위한 실시간 위치 기반 다국어 안내 및 예약 시스템입니다.', '글로벌 비전 12.png', '2026-12-31', '17:00:00', '21:30:00', '제조');
+(240, '글로벌 비전 12', '해외 신년 축제 및 관광객을 위한 실시간 위치 기반 다국어 안내 및 예약 시스템입니다.', '글로벌 비전 12.png', '2026-12-31', '17:00:00', '21:30:00', '제조'),
+(250, '테스트 컴퍼닝', '닝', '뜨기.png', '2026-07-07', '19:45:00', '21:45:00', '서비스');
+
+-- --------------------------------------------------------
+
+--
+-- 테이블 구조 `notices`
+--
+
+CREATE TABLE `notices` (
+  `idx` int(11) NOT NULL,
+  `title` varchar(500) NOT NULL,
+  `des` text NOT NULL,
+  `date` datetime NOT NULL DEFAULT current_timestamp(),
+  `image` varchar(500) NOT NULL,
+  `type` int(11) NOT NULL,
+  `company_idx` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- 테이블의 덤프 데이터 `notices`
+--
+
+INSERT INTO `notices` (`idx`, `title`, `des`, `date`, `image`, `type`, `company_idx`) VALUES
+(5, '뚜기', '뚜기를뚜그아', '2026-07-07 19:53:38', '꺅두기.png,대회.png,뜨기.png,하하.png', 0, 121);
+
+-- --------------------------------------------------------
+
+--
+-- 테이블 구조 `rooms`
+--
+
+CREATE TABLE `rooms` (
+  `idx` int(11) NOT NULL,
+  `company_idx` int(11) NOT NULL,
+  `date` datetime NOT NULL DEFAULT current_timestamp(),
+  `is_end` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- 테이블의 덤프 데이터 `rooms`
+--
+
+INSERT INTO `rooms` (`idx`, `company_idx`, `date`, `is_end`) VALUES
+(1, 250, '2026-07-07 20:48:55', 0);
+
+-- --------------------------------------------------------
+
+--
+-- 테이블 구조 `users`
+--
+
+CREATE TABLE `users` (
+  `idx` int(11) NOT NULL,
+  `id` varchar(300) NOT NULL,
+  `pw` varchar(300) NOT NULL,
+  `name` varchar(300) NOT NULL,
+  `type` int(11) NOT NULL,
+  `date` datetime NOT NULL DEFAULT current_timestamp(),
+  `token` varchar(400) DEFAULT NULL,
+  `last_login` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- 테이블의 덤프 데이터 `users`
+--
+
+INSERT INTO `users` (`idx`, `id`, `pw`, `name`, `type`, `date`, `token`, `last_login`) VALUES
+(1, 'admin', '1234', '관리자', 1, '2026-07-03 16:50:36', '3b207a08d253766f429b04af556ca0c6758cdcfd550277a6d8adae97d54ad4dc', '2026-07-07 16:34:33');
 
 --
 -- 덤프된 테이블의 인덱스
@@ -295,6 +363,24 @@ ALTER TABLE `companys`
   ADD PRIMARY KEY (`idx`);
 
 --
+-- 테이블의 인덱스 `notices`
+--
+ALTER TABLE `notices`
+  ADD PRIMARY KEY (`idx`);
+
+--
+-- 테이블의 인덱스 `rooms`
+--
+ALTER TABLE `rooms`
+  ADD PRIMARY KEY (`idx`);
+
+--
+-- 테이블의 인덱스 `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`idx`);
+
+--
 -- 덤프된 테이블의 AUTO_INCREMENT
 --
 
@@ -302,7 +388,25 @@ ALTER TABLE `companys`
 -- 테이블의 AUTO_INCREMENT `companys`
 --
 ALTER TABLE `companys`
-  MODIFY `idx` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=241;
+  MODIFY `idx` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=251;
+
+--
+-- 테이블의 AUTO_INCREMENT `notices`
+--
+ALTER TABLE `notices`
+  MODIFY `idx` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- 테이블의 AUTO_INCREMENT `rooms`
+--
+ALTER TABLE `rooms`
+  MODIFY `idx` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- 테이블의 AUTO_INCREMENT `users`
+--
+ALTER TABLE `users`
+  MODIFY `idx` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
