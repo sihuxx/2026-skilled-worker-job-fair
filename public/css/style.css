@@ -704,7 +704,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, label:focus-visible 
 
 .main {display: flex;flex-direction: column;align-items: center;justify-content: center;padding: 100px 0;}
 /* 캘린더 */
-.calendar {padding: 20px;box-shadow: 0 0 8px #b6c2cd9d; border-radius: 30px; display: flex;flex-direction: column;width: 1000px;}
+.calendar {position: relative;padding: 20px;box-shadow: 0 0 8px #b6c2cd9d; border-radius: 30px; display: flex;flex-direction: column;width: 1000px;}
 .calendar-header {display: flex;justify-content: space-between;padding: 20px 0;align-items: center;}
 .calendar-header button {padding: 10px 15px;background-color: var(--blue-500);color: white;font-weight: bold;border-radius: 20px;}
 .calendar-content {display: grid;grid-template-columns: repeat(7, 1fr);}
@@ -715,3 +715,10 @@ a:focus-visible, button:focus-visible, input:focus-visible, label:focus-visible 
 .calendar-header .current-date {font-weight: 500;font-size: 20px;}
 .company {font-size: 9px;display: flex;flex-direction: column;padding: 5px;background-color: #eee;border-radius: 5px;border: 1px solid #ccc;}
 .company .btns button {font-size: 10px;}
+
+.company-list {margin-top: 60px;width: 1000px;display: flex;flex-direction: column;gap: 20px;}
+.company-list .company-content {display: flex;justify-content: start;padding: 20px;align-items: center;gap: 20px;border-radius: 10px;border: 1px solid #ccc;}
+.company-list .company-content img {width: 100px;border-radius: 10px;}
+.company-list .company-content span {font-size: 14px;background-color: var(--blue-500);color: white;font-weight: bold;border-radius: 10px;padding: 5px 10px;}
+.company-list .company-content .company-info {display: flex;flex-direction: column;gap: 5px;align-items: start;}
+.tooltip {position: absolute;width: 50px;}

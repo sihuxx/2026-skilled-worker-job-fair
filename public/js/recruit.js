@@ -1,5 +1,6 @@
 const title = $(".current-date")
 const content = $(".calendar-content")
+const list = $(".company-list")
 const now = new Date()
 let current = new Date()
 const dates = "일월화수목금토".split("")
@@ -15,6 +16,17 @@ async function render() {
     if (!byDate[d]) byDate[d] = []
     byDate[d].push(c)
   })
+  list.innerHTML = companys.map(c => {
+    return `<div class="company-content">
+            <img src="/asset/images/${c.image}">
+            <div class="company-info">
+                <span>${c.category}</span>
+                <h3>${c.name}</h3>
+                <p>${c.des}</p>
+                <p>${c.date} ${c.start_time} ~ ${c.end_time}</p>
+            </div>
+        </div>`
+  }).join('')
   const isToday = d => now.toDateString() === new Date(year, month, d).toDateString()
   const weeks = dates.map(d => `<div class="week">${d}</div>`).join("")
   const padding = "<div class='day'></div>".repeat(new Date(year, month, 1).getDay())
@@ -23,7 +35,7 @@ async function render() {
     const events = byDate[d] || []
     const company = events.map(c => {
       return `<div class="company">
-      <h3>${c.name}</h3>
+      <h3 onmouseover="overTooltip(this)" onmouseleave="hideTooltip(this)" data-image="${c.image}">${c.name}</h3>
       <p>${c.start_time} ~ ${c.end_time}</p>
       <div class="btns">
       <button>상태</button>
@@ -40,6 +52,21 @@ async function render() {
 
 $(".prev-btn").onclick = () => { current.setMonth(current.getMonth() - 1); render() }
 $(".next-btn").onclick = () => { current.setMonth(current.getMonth() + 1); render() }
+
+function overTooltip(e) {
+  const tooltip = $(".tooltip")
+  tooltip.style.display = 'block'
+  const y = e.offsetY
+  const x = e.offsetX
+  tooltip.src = "/asset/images/" + e.dataset.image
+  tooltip.style.left = e.offsetLeft + e.offsetWidth + "px"
+  tooltip.style.top = e.offsetTop + "px"
+}
+
+function hideTooltip(e) {
+  const tooltip = $(".tooltip")
+  tooltip.style.display = 'none'
+}
 
 render()
 
