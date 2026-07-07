@@ -17,18 +17,23 @@ $companys = db::fetchAll("select * from companys order by date asc");
 </section>
 
 <div class="modal company-modal">
-    <form class="modal__card" action="/addCompany" method="post" enctype="multipart/form-data">
+    <form class="modal__card default-form" method="post" enctype="multipart/form-data">
+        <div class="modal__head">
+            <div class="modal__title">로그인<span>박람회 서비스를 이용하려면 로그인하세요</span></div>
+            <a href="#" class="modal__close" onclick="hideModal('company-modal')" aria-label="닫기">×</a>
+        </div>
+        <input type="hidden" name="date" class="date-input">
         <label>기업 이름: <input type="text" name="name" placeholder="기업 이름을 입력해주세요" required></label>
         <label>기업 소개: <textarea name="des" placeholder="기업 소개를 입력해주세요" required></textarea></label>
         <label>기업 이미지: <input type="file" name="file" required></label>
         <label>면접 시작시간: <input type="time" min="07:00" name="start_time" placeholder="면접 시작시간을 입력해주세요" required></label>
-        <label>면접 종료시간: <input type="time" name="start_time" placeholder="면접 종료시간을 입력해주세요" required></label>
+        <label>면접 종료시간: <input type="time" max="21:59" name="end_time" placeholder="면접 종료시간을 입력해주세요" required></label>
         <label>채용 분야: <select name="category">
                 <option value="IT">IT</option>
                 <option value="서비스">서비스</option>
                 <option value="제조">제조</option>
             </select></label>
-        <button>등록</button>
+        <button onclick="submitCompany()" type="button">등록</button>
     </form>
 </div>
 

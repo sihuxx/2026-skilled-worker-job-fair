@@ -6,7 +6,7 @@ let current = new Date()
 const dates = "일월화수목금토".split("")
 
 async function render() {
-  
+
   const year = current.getFullYear()
   const month = current.getMonth()
   const user = await fetch("/api/user").then(res => res.json())
@@ -18,6 +18,7 @@ async function render() {
     if (!byDate[d]) byDate[d] = []
     byDate[d].push(c)
   })
+
   list.innerHTML = companys.map(c => {
     return `<div class="company-content">
             <img src="/asset/images/${c.image}">
@@ -40,12 +41,12 @@ async function render() {
       <h3 onmouseover="overTooltip(this)" onmouseleave="hideTooltip(this)" data-image="${c.image}">${c.name}</h3>
       <p>${c.start_time} ~ ${c.end_time}</p>
       <div class="btns">
-      <button>상태</button>
+      ${getButton(c)}
       <button>삭제</button>
       </div>
       </div>`
     }).join("")
-    return `<div class='day ${isToday(d) ? "active" : ""}'> <span>${d}</span> ${user.type == '1' ? `<button class='add-btn' onclick="openModal('company-modal')">등록</button>` : ''} ${company}</div>`
+    return `<div class='day ${isToday(d) ? "active" : ""}'> <span>${d}</span> ${user.type == '1' ? `<button class='add-btn' onclick="openModal('company-modal', this)" data-date='${year}-${month + 1}-${d}'>등록</button>` : ''} ${company}</div>`
     company.ondragov
   }).join("")
   title.textContent = `${year}년 ${month + 1}월`
@@ -54,6 +55,47 @@ async function render() {
 
 $(".prev-btn").onclick = () => { current.setMonth(current.getMonth() - 1); render() }
 $(".next-btn").onclick = () => { current.setMonth(current.getMonth() + 1); render() }
+
+function openModal(name, el) {
+  $(`.${name}`).style.visibility = 'visible'
+  $(`.${name}`).style.opacity = 1
+  $(".date-input").value = el.dataset.date
+}
+function hideModal(name) {
+  $(`.${name}`).style.visibility = 'hidden'
+  $(`.${name}`).style.opacity = 0
+}
+
+async function submitCompany() {
+  const formData = new FormData()
+  formData.append("name", $("[name='name']").value)
+  formData.append("des", $("[name='des']").value)
+  formData.append("date", $("[name='date']").value)
+  formData.append("start_time", $("[name='start_time']").value)
+  formData.append("end_time", $("[name='end_time']").value)
+  formData.append("category", $("[name='category']").value)
+  formData.append("file", $("[name='file']").files[0])
+
+  const res = await fetch("/addCompany", {
+    method: "post",
+    body: formData
+  })
+  hideModal('company-modal')
+  render()
+}
+
+function getButton(el) {
+  const now = new Date()
+  const start = new Date(`${el.date}T${el.start_time}`)
+  const end = new Date(`${el.date}T${el.end_time}`)
+  if(now < start) {
+    return `<button class='status-btn' disabled>대기</button>`
+  } else if (now >= start && now <= end) {
+    return `<button class='status-btn'>개설</button>`
+  } else {
+    return `<button class='status-btn' disabled>종료</button>`
+  }
+}
 
 function overTooltip(e) {
   const tooltip = $(".tooltip")
@@ -68,6 +110,29 @@ function overTooltip(e) {
 function hideTooltip(e) {
   const tooltip = $(".tooltip")
   tooltip.style.display = 'none'
+}
+
+$("[name='end_time']").onchange = checkTime
+$("[name='start_time']").onchange = checkTime
+
+function checkTime() {
+  const start = $("[name='start_time']").value
+  const end = $("[name='end_time']").value
+  if (end && start && end <= start) {
+    alert("종료시간은 시작시간 이후로만 등록할 수 있습니다.")
+    $("[name='end_time']").value = ""
+  }
+}
+
+$("[name='file']").onchange = e => {
+  const file = e.target.files[0]
+  const allowed = ["png", "jpg"]
+  const ext = file.name.split(".").pop().toLowerCase()
+  if (!allowed.includes(ext)) {
+    alert("png 또는 jpg 파일만 등록 가능합니다")
+    e.target.value = ""
+    return
+  }
 }
 
 render()

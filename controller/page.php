@@ -6,7 +6,7 @@ get("/", function () {
 get("/sub", function () {
   views("sub");
 });
-get("/recruit", function() {
+get("/recruit", function () {
   views("recruit/recruit");
 });
 post("/login", function () {
@@ -39,12 +39,24 @@ get("/logout", function () {
   session_destroy();
   move("/", "로그아웃 성공");
 });
-get("/api/companys", function() {
+get("/api/companys", function () {
   extract($_GET);
   $companys = db::fetchAll("select * from companys where year(date) = $year and month(date) = $month order by date asc");
   echo json_encode($companys);
 });
-get("/api/user", function() {
+get("/api/user", function () {
   $user = ss();
   echo json_encode($user);
+});
+post("/addCompany", function () {
+  extract($_POST);
+  $file = $_FILES["file"];
+  $path = "/asset/companys/" . $file["name"];
+  if (db::fetch("select * from companys where date = '$date' and end_time > '$start_time' and start_time < '$end_time'")) {
+    back("다른 면접 일정과 겹칩니다.");
+  } else {
+    if (move_uploaded_file($file["tmp_name"], ".$path")) {
+      db::exec("insert into companys (name, des, image, date, start_time, end_time, category) values ('$name', '$des', '$path', '$date', '$start_time', '$end_time', '$category')");
+    }
+  }
 });
