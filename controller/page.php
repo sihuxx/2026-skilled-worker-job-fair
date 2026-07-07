@@ -9,6 +9,9 @@ get("/sub", function () {
 get("/recruit", function () {
   views("recruit/recruit");
 });
+get("/recruit/{idx}", function ($idx) {
+  views("recruit/detail");
+});
 post("/login", function () {
   extract($_POST);
   $user = db::fetch("select * from users where id = '$id'");
@@ -51,12 +54,17 @@ get("/api/user", function () {
 post("/addCompany", function () {
   extract($_POST);
   $file = $_FILES["file"];
-  $path = "/asset/companys/" . $file["name"];
+  $fileName = $file["name"];
+  $path = "/asset/images/" . $file["name"];
   if (db::fetch("select * from companys where date = '$date' and end_time > '$start_time' and start_time < '$end_time'")) {
     back("다른 면접 일정과 겹칩니다.");
   } else {
     if (move_uploaded_file($file["tmp_name"], ".$path")) {
-      db::exec("insert into companys (name, des, image, date, start_time, end_time, category) values ('$name', '$des', '$path', '$date', '$start_time', '$end_time', '$category')");
+      db::exec("insert into companys (name, des, image, date, start_time, end_time, category) values ('$name', '$des', '$fileName', '$date', '$start_time', '$end_time', '$category')");
     }
   }
+});
+post("/deleteCompany", function() {
+  extract($_GET);
+  db::exec("delete from companys where idx = '$idx'");
 });

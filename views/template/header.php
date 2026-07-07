@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>제61회 숙련기술인 채용박람회 | 기술로 그리는 내일</title>
   <meta name="description" content="대한민국 산업의 근간인 숙련기술인과 우수 기업을 잇는 제61회 숙련기술인 채용박람회.">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="/css/style.css">
 </head>
 
 <?php

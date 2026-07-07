@@ -38,11 +38,11 @@ async function render() {
     const events = byDate[d] || []
     const company = events.map(c => {
       return `<div class="company">
-      <h3 onmouseover="overTooltip(this)" onmouseleave="hideTooltip(this)" data-image="${c.image}">${c.name}</h3>
+      <h3 onmouseover="overTooltip(this)" onclick="location.href='/recruit/${c.idx}'" onmouseleave="hideTooltip(this)" data-image="${c.image}">${c.name}</h3>
       <p>${c.start_time} ~ ${c.end_time}</p>
       <div class="btns">
       ${getButton(c)}
-      <button>삭제</button>
+      <button onclick="deleteCompany(${c.idx})">삭제</button>
       </div>
       </div>`
     }).join("")
@@ -84,14 +84,23 @@ async function submitCompany() {
   render()
 }
 
+async function deleteCompany(idx) {
+  const ok = confirm("삭제하시겠습니까?");
+  if (!ok) return
+  const res = await fetch(`/deleteCompany?idx=${idx}`, {
+    method: "post"
+  })
+  render()
+}
+
 function getButton(el) {
   const now = new Date()
   const start = new Date(`${el.date}T${el.start_time}`)
   const end = new Date(`${el.date}T${el.end_time}`)
-  if(now < start) {
+  if (now < start) {
     return `<button class='status-btn' disabled>대기</button>`
   } else if (now >= start && now <= end) {
-    return `<button class='status-btn'>개설</button>`
+    return `<button class='status-btn' onclick="openChat(${el.idx})">개설</button>`
   } else {
     return `<button class='status-btn' disabled>종료</button>`
   }
@@ -122,6 +131,10 @@ function checkTime() {
     alert("종료시간은 시작시간 이후로만 등록할 수 있습니다.")
     $("[name='end_time']").value = ""
   }
+}
+
+function openChat(idx) {
+  location.href = `/chat/${idx}`
 }
 
 $("[name='file']").onchange = e => {
