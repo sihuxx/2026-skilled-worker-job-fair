@@ -44,3 +44,7 @@ get("/api/companys", function() {
   $companys = db::fetchAll("select * from companys where year(date) = $year and month(date) = $month order by date asc");
   echo json_encode($companys);
 });
+get("/api/user", function() {
+  $user = ss();
+  echo json_encode($user);
+});

@@ -6,8 +6,10 @@ let current = new Date()
 const dates = "일월화수목금토".split("")
 
 async function render() {
+  
   const year = current.getFullYear()
   const month = current.getMonth()
+  const user = await fetch("/api/user").then(res => res.json())
   const companys = await fetch(`/api/companys?year=${year}&month=${month + 1}`).then(res => res.json())
 
   const byDate = {}
@@ -43,7 +45,7 @@ async function render() {
       </div>
       </div>`
     }).join("")
-    return `<div class='day ${isToday(d) ? "active" : ""}'><span>${d}</span> ${company}</div>`
+    return `<div class='day ${isToday(d) ? "active" : ""}'> <span>${d}</span> ${user.type == '1' ? `<button class='add-btn' onclick="openModal('company-modal')">등록</button>` : ''} ${company}</div>`
     company.ondragov
   }).join("")
   title.textContent = `${year}년 ${month + 1}월`
