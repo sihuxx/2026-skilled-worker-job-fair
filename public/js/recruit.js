@@ -56,15 +56,6 @@ async function render() {
 $(".prev-btn").onclick = () => { current.setMonth(current.getMonth() - 1); render() }
 $(".next-btn").onclick = () => { current.setMonth(current.getMonth() + 1); render() }
 
-function openModal(name, el) {
-  $(`.${name}`).style.visibility = 'visible'
-  $(`.${name}`).style.opacity = 1
-  $(".date-input").value = el.dataset.date
-}
-function hideModal(name) {
-  $(`.${name}`).style.visibility = 'hidden'
-  $(`.${name}`).style.opacity = 0
-}
 
 async function submitCompany() {
   const formData = new FormData()

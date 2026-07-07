@@ -10,7 +10,7 @@ get("/recruit", function () {
   views("recruit/recruit");
 });
 get("/recruit/{idx}", function ($idx) {
-  views("recruit/detail");
+  views("recruit/detail", ["idx" => $idx]);
 });
 post("/login", function () {
   extract($_POST);
@@ -64,7 +64,28 @@ post("/addCompany", function () {
     }
   }
 });
-post("/deleteCompany", function() {
+post("/deleteCompany", function () {
   extract($_GET);
   db::exec("delete from companys where idx = '$idx'");
+});
+post('/addNotice', function () {
+  extract($_POST);
+  $type = $type ?? 0;
+  $images = [];
+  $file = $_FILES["file"];
+  foreach ($file["tmp_name"] as $i => $tmp) {
+    if (!$tmp) continue;
+    $path = "/asset/notices/" . $file["name"][$i];
+    move_uploaded_file($tmp, ".$path");
+    $images[] = $file["name"][$i];
+  }
+  $image = implode(",", $images);
+
+  if ($image) {
+    db::exec("insert into notices (title, des, image, type, company_idx) values ('$title', '$des', '$image', '$type', '$idx')");
+    // move("/recruit/$idx", "공지사항 추가 성공");
+  } else {
+    db::exec("insert into notices (title, des, type, company_idx) values ('$title', '$des', '$type', '$idx')");
+    // move("/recruit/$idx", "공지사항 추가 성공");
+  }
 });

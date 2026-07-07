@@ -713,8 +713,8 @@ a:focus-visible, button:focus-visible, input:focus-visible, label:focus-visible 
 .calendar-content .day:nth-child(7n) {color: blue;}
 .calendar-content .day:nth-child(7n + 1) {color: red;}
 .calendar-header .current-date {font-weight: 500;font-size: 20px;}
-.company {font-size: 9px;display: flex;flex-direction: column;padding: 5px;background-color: #eee;border-radius: 5px;border: 1px solid #ccc;}
-.company .btns button {font-size: 10px;}
+.day .company {font-size: 9px;display: flex;flex-direction: column;padding: 5px;background-color: #eee;border-radius: 5px;border: 1px solid #ccc;}
+.day .company .btns button {font-size: 10px;}
 
 .company-list {margin-top: 60px;width: 1000px;display: flex;flex-direction: column;gap: 20px;}
 .company-list .company-content {display: flex;justify-content: start;padding: 20px;align-items: center;gap: 20px;border-radius: 10px;border: 1px solid #ccc;}
@@ -727,3 +727,26 @@ a:focus-visible, button:focus-visible, input:focus-visible, label:focus-visible 
 .default-form input, select, textarea {padding: 10px;width: 200px;}
 .default-form label {font-size: 14px;color: var(--blue-700); display: flex;align-items: center;gap: 20px;}
 .default-form button {padding: 10px 15px;border-radius: 10px;background-color: var(--blue-500);color: white;border: 1px solid var(--blue-600); font-weight: bold;border-radius: 10px;}
+
+/* 상세 페이지 */
+.detail-section {display: flex;flex-direction: column;gap: 60px;}
+.detail-content, .notice-content {display: flex;justify-content: center;align-items: center;flex-direction: column;}
+.detail-content .company {gap: 30px;padding: 30px;width: 1000px;background-color: var(--blue-050); box-shadow: 0 0 8px var(--blue-400);display: flex;align-items: center;border-radius: 30px;}
+.detail-content .company img {border-radius: 30px; width: 200px;}
+.detail-content .company h3 {color: var(--blue-600);font-size: 22px;}
+.detail-content .company p {color: #333;}
+.detail-content .company span {padding: 5px 10px;border-radius: 10px;background-color: var(--blue-600);color: white;font-weight: bold;font-size: 14px;}
+.detail-content .company .company-info {display: flex;flex-direction: column;gap: 10px;align-items: start;}
+.notice-add-btn {margin: 30px 0;padding: 10px 15px;border-radius: 10px;background-color: var(--blue-500);color: white;border: 1px solid var(--blue-600); font-weight: bold;border-radius: 10px;}
+.notice-list {width: 1000px;}
+.notice-list .notice {border-radius: 10px; width: 100%;display: flex;justify-content: space-between;align-items: center;padding: 20px;border: 1px solid var(--blue-200);}
+.notice-list .notice-info h3 {color: var(--blue-700);}
+.notice-list .notice-info p {color: #333;}
+.notice-list .notice .notice-info {display: flex;gap: 10px;align-items: center;}
+.notice-detail-modal .notice-detail {border-radius: 30px; height: 600px;overflow-y: scroll; display: flex;flex-direction: column;gap: 20px;padding: 20px;background: white;}
+.notice-detail img {width: 600px;}
+.notice-detail .img-box {position: relative;}
+.notice-detail h3 {font-size: 30px;font-weight: 500;}
+.notice-detail .img-box a {position: absolute;bottom: 10px;left: 10px;color: white;padding: 5px;background-color: #000000a5;backdrop-filter: blur(3px);font-size: 13px;border-radius: 5px;}
+.notice-detail .notice-info {display: flex;gap: 20px;align-items: end;}
+.type-tag {background-color: var(--blue-500);color: white;font-weight: bold;font-size: 15px;border-radius: 10px;}

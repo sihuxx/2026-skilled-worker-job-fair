@@ -19,7 +19,7 @@ $companys = db::fetchAll("select * from companys order by date asc");
 <div class="modal company-modal">
     <form class="modal__card default-form" method="post" enctype="multipart/form-data">
         <div class="modal__head">
-            <div class="modal__title">로그인<span>박람회 서비스를 이용하려면 로그인하세요</span></div>
+            <div class="modal__title">기업 등록<span>기업을 등록하세요</span></div>
             <a href="#" class="modal__close" onclick="hideModal('company-modal')" aria-label="닫기">×</a>
         </div>
         <input type="hidden" name="date" class="date-input">
