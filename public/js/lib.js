@@ -19,5 +19,11 @@ async function openChat(idx) {
         method: "post",
     })
     const data = await res.json()
-    location.href = `/room/${data.idx}`
+    joinChat(data.idx)
+}
+async function joinChat(idx) {
+    const res = await fetch(`/joinRoom?idx=${idx}`, {
+        method: "post"
+    })
+    location.href = `/room/${idx}`
 }

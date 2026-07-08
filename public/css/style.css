@@ -753,3 +753,19 @@ a:focus-visible, button:focus-visible, input:focus-visible, label:focus-visible 
 .status-content {width: 1000px;margin: 30px 0;}
 .status-content button {padding: 10px 15px;border-radius: 10px;background-color: #eee;border: 1px solid #333;}
 .status-content button:last-child {background-color: var(--blue-500);color: white;}
+
+/* 채팅 */
+.chat-section {display: flex;align-items: center;justify-content: center;}
+.inner-content {width: 1500px;display: flex;align-items: start;justify-content: center;gap: 40px;}
+.inner-content > div {width: 100%;gap: 20px;display: flex;flex-direction: column;}
+.inner-content > div > p {font-weight: bold;}
+.member-list {display: flex;flex-direction: column;gap: 20px;}
+.member-list .user {display: flex;justify-content: start;gap: 10px;align-items: center;padding: 10px;border: 1px solid #ccc;border-radius: 5px;}
+.member-list .user span {font-size: 14px;padding: 5px 10px;border-radius: 5px;background-color: var(--blue-500);color: white;font-weight: bold;}
+.chat-content .chating {border-radius: 5px; display: flex;flex-direction: column;padding: 20px;border: 1px solid #ccc;height: 600px;overflow-y: scroll;}
+.chat-content input {padding: 10px;border: 1px solid #ccc;border-radius: 5px;}
+.drawing-content canvas {border: 1px solid #ccc;}
+.chat-content .chating {display: flex;flex-direction: column;gap: 10px;}
+.chating .chat {display: flex;justify-content: space-between;align-items: center; padding: 10px;border: 1px solid #ccc;border-radius: 5px}
+.chating .chat .chat-info {display: flex;gap: 5px;}
+.chating .chat .chat-date {color: #555;font-size: 14px;}

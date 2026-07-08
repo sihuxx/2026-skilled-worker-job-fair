@@ -54,6 +54,12 @@ get("/api/user", function () {
   $user = ss();
   echo json_encode($user);
 });
+get("/api/chats", function() {
+  extract($_GET);
+  $chats = db::fetchAll("select u.id as user_id, r.* from room_chats r inner join users u on r.user_idx = u.idx where r.room_idx = '$idx' order by r.date asc");
+  // $chats = db::fetchAll("select * from room_chats where room_idx = '$idx'");
+  echo json_encode($chats);
+});
 post("/addCompany", function () {
   extract($_POST);
   $file = $_FILES["file"];
@@ -99,6 +105,23 @@ post("/addRoom", function () {
     echo json_encode($room);
   } else {
     db::exec("insert into rooms (company_idx) values ('$idx')");
+    $room = db::fetch("select * from rooms where company_idx = '$idx' order by idx desc limit 1");
     echo json_encode($room);
+  }
+});
+post("/joinRoom", function() {
+  extract($_GET);
+  $user = ss();
+  if(!db::fetch("select * from room_peoples where user_idx = '$user->idx' and room_idx = '$idx'")) {
+    db::exec("insert into room_peoples (room_idx, user_idx) values ('$idx', '$user->idx')");
+  }
+});
+post("/addChat", function() {
+  extract($_POST);
+  $user = ss();
+  if($user) {
+    db::exec("insert into room_chats(user_idx, room_idx, message) values ('{$user->idx}', '$room_idx', '$message')");
+  } else {
+    back("로그인 한 유저만 이용 가능한 기능입니다");
   }
 });
