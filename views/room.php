@@ -1,12 +1,20 @@
 <?php
+$user = ss();
 $members = db::fetchAll("select * from room_peoples r inner join users u on r.user_idx = u.idx where r.room_idx = '$idx'");
 ?>
 
 <section class="section chat-section">
+  <div class="room-header">
+    <?php if ($user->type == 1) { ?>
+      <a class="room-end-btn" href="/endRoom/<?= $idx ?>">대화방 종료</a>
+    <?php } else { ?>
+      <a class="room-end-btn" href="/exitRoom/<?= $idx ?>">퇴장</a>
+    <?php } ?>
+  </div>
   <div class="inner-content">
     <div class="drawing-content">
       <p>그림판</p>
-      <canvas height="380" width="300" class="drawing"></canvas>
+      <canvas height="600" width="450" class="drawing"></canvas>
     </div>
     <div class="chat-content">
       <p>채팅</p>
@@ -15,14 +23,7 @@ $members = db::fetchAll("select * from room_peoples r inner join users u on r.us
     </div>
     <div class="member-content">
       <p>참가인원</p>
-      <div class="member-list">
-        <?php foreach ($members as $member) { ?>
-          <div class="user">
-            <span><?= $member->type == 1 ? "관리자" : "일반회원" ?></span>
-            <p><?= $member->id ?></p>
-          </div>
-        <?php } ?>
-      </div>
+      <div class="member-list"></div>
     </div>
   </div>
 </section>

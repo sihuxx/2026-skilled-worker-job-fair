@@ -9,14 +9,18 @@ $user = ss();
 <section class="section detail-section">
   <div class="detail-content">
     <div class="status-content">
-        <?php if($today < $company->date) { ?>
-          <button disabled>대기</button>
-        <?php } else if ($time >= $company->start_time && $time <= $company->end_time) { ?>
+      <?php if ($today < $company->date) { ?>
+        <button disabled>대기</button>
+      <?php } else if ($time >= $company->start_time && $time <= $company->end_time) { ?>
+        <?php if ($user->type == 1) { ?>
           <button onclick="openChat(<?= $company->idx ?>)">개설</button>
         <?php } else { ?>
-          <button disabled>종료</button>
+          <button onclick="openChat(<?= $company->idx ?>)">참여</button>
         <?php } ?>
-      <button>삭제</button>
+      <?php } else { ?>
+        <button disabled>종료</button>
+      <?php } ?>
+      <button onclick="deleteCompany(<?= $company->idx ?>)">삭제</button>
     </div>
     <div class="company">
       <img src="/asset/images/<?= $company->image ?>" alt="">
@@ -39,8 +43,12 @@ $user = ss();
       ?>
         <div class="notice">
           <div class="notice-info">
+            <?php if ($notice->image != null) { ?>
+              <span onclick="downloadFiles('<?= $notice->image ?>')">
+                <img src="/asset/file.png">
+              </span>
             <h3 onclick="openModal('noticeModal<?= $notice->idx ?>')"><?= $notice->title ?></h3>
-            <span><?= $notice->image != null ? '첨부파일 잇읍' : "첨부파일없음" ?></span>
+            <?php } ?>
           </div>
           <p><?= $notice->date ?></p>
         </div>
@@ -49,7 +57,7 @@ $user = ss();
             <div class="modal__head">
               <a href="#" class="modal__close" onclick="hideModal('noticeModal<?= $notice->idx ?>')" aria-label="닫기">×</a>
             </div>
-            <?php if($notice->type == 1) { ?>
+            <?php if ($notice->type == 1) { ?>
               <span class="type-tag">중요</span>
             <?php } ?>
             <div class="notice-info">
@@ -60,7 +68,7 @@ $user = ss();
             <?php foreach ($images as $img) { ?>
               <div class="img-box">
                 <img src="/asset/notices/<?= $img ?>">
-                <a href="<?= $img ?>" download="<?= $img ?>"><?= $img ?></a>
+                <a href="/asset/notices/<?= $img ?>" download="<?= $img ?>"><?= $img ?></a>
               </div>
             <?php } ?>
           </div>

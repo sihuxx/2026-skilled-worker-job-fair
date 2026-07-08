@@ -742,20 +742,21 @@ a:focus-visible, button:focus-visible, input:focus-visible, label:focus-visible 
 .notice-list .notice {border-radius: 10px; width: 100%;display: flex;justify-content: space-between;align-items: center;padding: 20px;border: 1px solid var(--blue-200);}
 .notice-list .notice-info h3 {color: var(--blue-700);}
 .notice-list .notice-info p {color: #333;}
-.notice-list .notice .notice-info {display: flex;gap: 10px;align-items: center;}
+.notice-list .notice .notice-info {display: flex;gap: 20px;align-items: center;}
 .notice-detail-modal .notice-detail {border-radius: 30px; height: 600px;overflow-y: scroll; display: flex;flex-direction: column;gap: 20px;padding: 20px;background: white;}
 .notice-detail img {width: 600px;}
 .notice-detail .img-box {position: relative;}
 .notice-detail h3 {font-size: 30px;font-weight: 500;}
 .notice-detail .img-box a {position: absolute;bottom: 10px;left: 10px;color: white;padding: 5px;background-color: #000000a5;backdrop-filter: blur(3px);font-size: 13px;border-radius: 5px;}
 .notice-detail .notice-info {display: flex;gap: 20px;align-items: end;}
-.type-tag {background-color: var(--blue-500);color: white;font-weight: bold;font-size: 15px;border-radius: 10px;}
+.notice .notice-info img {width: 30px;}
+.type-tag {padding: 10px 15px;background-color: var(--blue-500);color: white;font-weight: bold;font-size: 15px;border-radius: 10px;width: fit-content;}
 .status-content {width: 1000px;margin: 30px 0;}
 .status-content button {padding: 10px 15px;border-radius: 10px;background-color: #eee;border: 1px solid #333;}
 .status-content button:last-child {background-color: var(--blue-500);color: white;}
 
 /* 채팅 */
-.chat-section {display: flex;align-items: center;justify-content: center;}
+.chat-section {display: flex;align-items: center;justify-content: center;flex-direction: column;gap: 30px;}
 .inner-content {width: 1500px;display: flex;align-items: start;justify-content: center;gap: 40px;}
 .inner-content > div {width: 100%;gap: 20px;display: flex;flex-direction: column;}
 .inner-content > div > p {font-weight: bold;}
@@ -764,8 +765,10 @@ a:focus-visible, button:focus-visible, input:focus-visible, label:focus-visible 
 .member-list .user span {font-size: 14px;padding: 5px 10px;border-radius: 5px;background-color: var(--blue-500);color: white;font-weight: bold;}
 .chat-content .chating {border-radius: 5px; display: flex;flex-direction: column;padding: 20px;border: 1px solid #ccc;height: 600px;overflow-y: scroll;}
 .chat-content input {padding: 10px;border: 1px solid #ccc;border-radius: 5px;}
-.drawing-content canvas {border: 1px solid #ccc;}
+.drawing-content canvas {width: 100%;height: 600px;border: 1px solid #ccc;}
 .chat-content .chating {display: flex;flex-direction: column;gap: 10px;}
 .chating .chat {display: flex;justify-content: space-between;align-items: center; padding: 10px;border: 1px solid #ccc;border-radius: 5px}
 .chating .chat .chat-info {display: flex;gap: 5px;}
 .chating .chat .chat-date {color: #555;font-size: 14px;}
+.room-end-btn {padding: 10px 15px;border-radius: 10px;background-color: var(--blue-500);color: white;font-weight: bold;}
+.room-header {width: 1500px;display: flex;justify-content: start;align-items: center;}

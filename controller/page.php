@@ -15,6 +15,41 @@ get("/recruit/{idx}", function ($idx) {
 get("/room/{idx}", function ($idx) {
   views("room", ["idx" => $idx]);
 });
+
+get("/api/companys", function () {
+  extract($_GET);
+  $companys = db::fetchAll("select * from companys where year(date) = $year and month(date) = $month order by date asc");
+  echo json_encode($companys);
+});
+get("/api/user", function () {
+  $user = ss();
+  echo json_encode($user);
+});
+get("/api/chats", function () {
+  extract($_GET);
+  $chats = db::fetchAll("select u.id as user_id, r.* from room_chats r inner join users u on r.user_idx = u.idx where r.room_idx = '$idx' order by r.date asc");
+  echo json_encode($chats);
+});
+get("/api/paints", function () {
+  extract($_GET);
+  $paints = db::fetchAll("select * from room_paints where room_idx = '$idx'");
+  echo json_encode($paints);
+});
+get("/api/rooms", function () {
+  extract($_GET);
+  $room = db::fetch("select * from rooms where idx = '$idx'");
+  echo json_encode($room);
+});
+get("/api/roomUsers", function () {
+  extract($_GET);
+  $users =  db::fetchAll("select * from room_peoples r inner join users u on r.user_idx = u.idx where r.room_idx = '$idx'");
+  echo json_encode($users);
+});
+get("/api/companyRooms", function () {
+  extract($_POST);
+  $rooms = db::fetch("select * from rooms where company_idx = '$idx'");
+  echo json_encode($rooms);
+});
 post("/login", function () {
   extract($_POST);
   $user = db::fetch("select * from users where id = '$id'");
@@ -44,21 +79,6 @@ get("/logout", function () {
   db::exec("update users set token = null where idx = '$user->idx'");
   session_destroy();
   move("/", "로그아웃 성공");
-});
-get("/api/companys", function () {
-  extract($_GET);
-  $companys = db::fetchAll("select * from companys where year(date) = $year and month(date) = $month order by date asc");
-  echo json_encode($companys);
-});
-get("/api/user", function () {
-  $user = ss();
-  echo json_encode($user);
-});
-get("/api/chats", function() {
-  extract($_GET);
-  $chats = db::fetchAll("select u.id as user_id, r.* from room_chats r inner join users u on r.user_idx = u.idx where r.room_idx = '$idx' order by r.date asc");
-  // $chats = db::fetchAll("select * from room_chats where room_idx = '$idx'");
-  echo json_encode($chats);
 });
 post("/addCompany", function () {
   extract($_POST);
@@ -100,28 +120,58 @@ post('/addNotice', function () {
 });
 post("/addRoom", function () {
   extract($_GET);
+  $user = ss();
   $room = db::fetch("select * from rooms where company_idx = '$idx'");
-  if ($room) {
-    echo json_encode($room);
+  if (!$room) {
+    if ($user->type == 1) {
+      db::exec("insert into rooms (company_idx) values ('$idx')");
+      $room = db::fetch("select * from rooms where company_idx = '$idx' order by idx desc limit 1");
+      echo json_encode($room);
+    } /* else {
+      back("아직 방이 개설되지 않았습니다");
+    } */
+  }
+  if ($room->is_end == 1) {
+    if ($user->type == 1) {
+      db::exec("update rooms set is_end = 0 where idx = '$room->idx'");
+      echo json_encode($room);
+    } /* else {
+      back("아직 방이 개설되지 않았습니다");
+    } */
   } else {
-    db::exec("insert into rooms (company_idx) values ('$idx')");
-    $room = db::fetch("select * from rooms where company_idx = '$idx' order by idx desc limit 1");
     echo json_encode($room);
   }
 });
-post("/joinRoom", function() {
+post("/joinRoom", function () {
   extract($_GET);
   $user = ss();
-  if(!db::fetch("select * from room_peoples where user_idx = '$user->idx' and room_idx = '$idx'")) {
+  if (!db::fetch("select * from room_peoples where user_idx = '$user->idx' and room_idx = '$idx'")) {
     db::exec("insert into room_peoples (room_idx, user_idx) values ('$idx', '$user->idx')");
   }
 });
-post("/addChat", function() {
+post("/addChat", function () {
   extract($_POST);
   $user = ss();
-  if($user) {
+  if ($user) {
     db::exec("insert into room_chats(user_idx, room_idx, message) values ('{$user->idx}', '$room_idx', '$message')");
   } else {
     back("로그인 한 유저만 이용 가능한 기능입니다");
   }
+});
+post("/addPaint", function () {
+  extract($_POST);
+  $user = ss();
+  if ($user->type == 0) back("관리자만 그림판 이용이 가능합니다");
+  db::exec("insert into room_paints (room_idx, start_x, start_y, end_x, end_y) values ('$room_idx', '$start_x', '$start_y', '$end_x', '$end_y')");
+});
+get("/endRoom/{idx}", function ($idx) {
+  $room = db::fetch("select * from rooms where idx = '$idx'");
+  db::exec("update rooms set is_end = 1 where idx = '$idx'");
+  move("/recruit/$room->company_idx");
+});
+get("/exitRoom/{idx}", function ($idx) {
+  $room = db::fetch("select * from rooms where idx = '$idx'");
+  $user = ss();
+  db::exec("delete from room_peoples where room_idx = '$idx' and user_idx = '$user->idx'");
+  move("/recruit/$room->company_idx");
 });

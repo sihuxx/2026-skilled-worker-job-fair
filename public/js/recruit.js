@@ -6,12 +6,11 @@ let current = new Date()
 const dates = "일월화수목금토".split("")
 
 async function render() {
-
   const year = current.getFullYear()
   const month = current.getMonth()
   const user = await fetch("/api/user").then(res => res.json())
   const companys = await fetch(`/api/companys?year=${year}&month=${month + 1}`).then(res => res.json())
-
+  
   const byDate = {}
   companys.forEach(c => {
     const d = new Date(c.date).getDate()
@@ -41,7 +40,7 @@ async function render() {
       <h3 onmouseover="overTooltip(this)" onclick="location.href='/recruit/${c.idx}'" onmouseleave="hideTooltip(this)" data-image="${c.image}">${c.name}</h3>
       <p>${c.start_time} ~ ${c.end_time}</p>
       <div class="btns">
-      ${getButton(c)}
+      ${getButton(c, user)}
       <button onclick="deleteCompany(${c.idx})">삭제</button>
       </div>
       </div>`
@@ -84,14 +83,18 @@ async function deleteCompany(idx) {
   render()
 }
 
-function getButton(el) {
+function getButton(el, user) {
   const now = new Date()
   const start = new Date(`${el.date}T${el.start_time}`)
   const end = new Date(`${el.date}T${el.end_time}`)
   if (now < start) {
     return `<button class='status-btn' disabled>대기</button>`
   } else if (now >= start && now <= end) {
-    return `<button class='status-btn' onclick="openChat(${el.idx})">개설</button>`
+    if(user.type == 1) {
+      return `<button class='status-btn' onclick="openChat(${el.idx})">개설</button>`
+    } else {
+      return `<button class='status-btn' onclick="openChat(${el.idx})">참여</button>` 
+    }
   } else {
     return `<button class='status-btn' disabled>종료</button>`
   }

@@ -27,3 +27,19 @@ async function joinChat(idx) {
     })
     location.href = `/room/${idx}`
 }
+
+async function deleteCompany(idx) {
+    const ok = confirm("삭제하시겠습니까?");
+    if (!ok) return
+    const res = await fetch(`/deleteCompany?idx=${idx}`, {
+        method: "post"
+    })
+    location.href = '/recruit'
+}
+
+function downloadFiles(image) {
+    const files = image.split(",")
+    files.forEach(file => {
+        newEl("a", { href: `/asset/notices/${file}`, download: file }).click()
+    })
+}
