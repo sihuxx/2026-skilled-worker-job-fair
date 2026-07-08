@@ -23,7 +23,10 @@ $user = ss();
       <button onclick="deleteCompany(<?= $company->idx ?>)">삭제</button>
     </div>
     <div class="company">
-      <img src="/asset/images/<?= $company->image ?>" alt="">
+      <input type="file" hidden id="companyImage" onchange="fileTypeCheck(this)">
+      <label for="companyImage" style="cursor:pointer">
+        <img src="/asset/images/<?= $company->image ?>" alt="">
+      </label>
       <div class="company-info">
         <span><?= $company->category ?></span>
         <h3><?= $company->name ?></h3>
@@ -47,7 +50,7 @@ $user = ss();
               <span onclick="downloadFiles('<?= $notice->image ?>')">
                 <img src="/asset/file.png">
               </span>
-            <h3 onclick="openModal('noticeModal<?= $notice->idx ?>')"><?= $notice->title ?></h3>
+              <h3 onclick="openModal('noticeModal<?= $notice->idx ?>')"><?= $notice->title ?></h3>
             <?php } ?>
           </div>
           <p><?= $notice->date ?></p>
@@ -94,3 +97,4 @@ $user = ss();
 </div>
 
 <script src="/js/lib.js"></script>
+<script src="/js/detail.js"></script>
