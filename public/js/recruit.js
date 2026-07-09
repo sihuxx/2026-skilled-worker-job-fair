@@ -103,8 +103,6 @@ function getButton(el, user) {
 function overTooltip(e) {
   const tooltip = $(".tooltip")
   tooltip.style.display = 'block'
-  const y = e.offsetY
-  const x = e.offsetX
   tooltip.src = "/asset/images/" + e.dataset.image
   tooltip.style.left = e.offsetLeft + e.offsetWidth + "px"
   tooltip.style.top = e.offsetTop + "px"
@@ -153,15 +151,14 @@ render()
 //   console.log(sql)
 // }
 
-async function data() {
-  const data = await fetch("/asset/json/job_fair.json").then(res => res.json())
+// async function data() {
+//   const data = await fetch("/asset/json/job_fair.json").then(res => res.json())
 
-  const esc = str => String(str).replace(/'/g, "''")
+//   const esc = str => String(str).replace(/'/g, "''")
 
-  const sql = data.map(row => `
-UPDATE companys SET image = '${esc(row.company_image)}' WHERE idx = ${row.idx};
-`).join("")
+//   const sql = data.map(row => `
+// UPDATE companys SET image = '${esc(row.company_image)}' WHERE idx = ${row.idx};
+// `).join("")
 
-  console.log(sql)
-}
-data()
+//   console.log(sql)
+// }

@@ -25,3 +25,12 @@ async function openRoomModal(roomIdx) {
         </div>`
   }).join("")
 }
+
+function overTooltip(e) {
+  const tooltip = $(".tooltip")
+  const name = e.dataset.name
+  tooltip.style.display = 'block'
+  tooltip.textContent = name
+  tooltip.style.left = e.offsetLeft  + "px"
+  tooltip.style.top = e.offsetTop + "px"
+}

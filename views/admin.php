@@ -46,8 +46,9 @@ $companys = db::fetchAll("select * from companys order by date, start_time")
         <h3>등록 기업 리스트</h3>
         <div class="company-grid">
             <?php foreach ($companys as $company) { ?>
-                <div class="company"><img src="/asset/images/<?= $company->image ?>" alt=""></div>
+                <div class="company" onmouseover="overTooltip(this)" data-name="<?= $company->name ?>"><img src="/asset/images/<?= $company->image ?>" alt=""></div>
             <?php } ?>
+            <div class="tooltip"></div>
         </div>
     </div>
     <div class="banner-content">
