@@ -23,9 +23,9 @@ get("/api/companys", function () {
   $companys = db::fetchAll("select * from companys where year(date) = $year and month(date) = $month order by date asc");
   echo json_encode($companys);
 });
-get('/api/companyImage/{idx}', function($idx) {
-  $image = db::fetch("select * from companys where idx = '$idx'");
-  echo json_encode($image);
+get('/api/allCompany', function() {
+  $companys = db::fetchAll("select * from companys");
+  echo json_encode($companys);
 });
 get("/api/user", function () {
   $user = ss();

@@ -783,7 +783,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, label:focus-visible 
 .interview-info {display: flex;flex-direction: column;gap: 10px;}
 .interview-info span {width: fit-content; padding: 5px 10px;border-radius: 10px;font-size: 15px; background-color: var(--blue-500);color: white;font-weight: bold;}
 .company-grid {display: grid;grid-template-columns: repeat(20, 1fr);gap: 10px;}
-.company-grid .company {user-select: none;cursor: pointer;}
+.company-grid .company {user-select: none;cursor: pointer;} 
 .interview-info button {width: fit-content; padding: 5px 10px;border-radius: 10px;background-color: var(--blue-400);color: white;font-weight: bold;border: 1px solid var(--blue-600);}
 .interview-info button:disabled {background-color: gray;pointer-events: none;}
 .room-modal .modal-header {padding: 10px;}
@@ -795,5 +795,5 @@ a:focus-visible, button:focus-visible, input:focus-visible, label:focus-visible 
 .room-content .chats .chat .chat-info {display: flex;gap: 5px;}
 .room-content .chats .chat .chat-date {color: #555;font-size: 14px;}
 .company-grid .tooltip {display: none;width: fit-content;padding: 5px;font-size: 14px;background-color: #0000006e;color: white;border-radius: 5px;backdrop-filter: blur(3px);}
-.banner-grid {height: 90px;display: grid;grid-template-columns: repeat(15, 1fr);gap: 10px;}
+.banner-grid {height: 90px;display: grid;grid-template-columns: repeat(15, 1fr);}
 .banner-grid .banner {width: 100%;height: 100%;border: 1px solid #ccc;}
