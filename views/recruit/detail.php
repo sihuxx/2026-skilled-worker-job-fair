@@ -23,9 +23,9 @@ $user = ss();
       <button onclick="deleteCompany(<?= $company->idx ?>)">삭제</button>
     </div>
     <div class="company">
-      <input type="file" hidden id="companyImage" onchange="fileTypeCheck(this)">
-      <label for="companyImage" style="cursor:pointer">
-        <img src="/asset/images/<?= $company->image ?>" alt="">
+      <input type="file" hidden id="fileInput" onchange="fileTypeCheck(this)">
+      <label for="fileInput" style="cursor:pointer">
+        <img class="company-image" src="/asset/images/<?= $company->image ?>" alt="">
       </label>
       <div class="company-info">
         <span><?= $company->category ?></span>
@@ -96,5 +96,8 @@ $user = ss();
   </form>
 </div>
 
+<script>
+  const companyIdx = <?= json_encode($company->idx) ?>;
+</script>
 <script src="/js/lib.js"></script>
 <script src="/js/detail.js"></script>

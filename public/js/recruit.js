@@ -152,3 +152,16 @@ render()
 
 //   console.log(sql)
 // }
+
+async function data() {
+  const data = await fetch("/asset/json/job_fair.json").then(res => res.json())
+
+  const esc = str => String(str).replace(/'/g, "''")
+
+  const sql = data.map(row => `
+UPDATE companys SET image = '${esc(row.company_image)}' WHERE idx = ${row.idx};
+`).join("")
+
+  console.log(sql)
+}
+data()

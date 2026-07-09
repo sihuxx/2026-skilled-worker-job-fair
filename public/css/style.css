@@ -772,3 +772,15 @@ a:focus-visible, button:focus-visible, input:focus-visible, label:focus-visible 
 .chating .chat .chat-date {color: #555;font-size: 14px;}
 .room-end-btn {padding: 10px 15px;border-radius: 10px;background-color: var(--blue-500);color: white;font-weight: bold;}
 .room-header {width: 1500px;display: flex;justify-content: start;align-items: center;}
+
+/* 관리자 */
+.admin-section {display: flex;flex-direction: column;align-items: center;gap: 60px;}
+.admin-section > div {width: 1500px;display: flex;flex-direction: column;gap: 30px;}
+.admin-section > div > h3 {color: var(--blue-900);}
+.interview-grid {display: flex;flex-direction: column;gap: 20px;overflow-y: scroll;height: 800px}
+.interview {padding: 20px;border-radius: 20px; border: 1px solid #ccc; display: flex;align-items: center;justify-content: start;gap: 30px;}
+.interview img {width: 200px;}
+.interview-info {display: flex;flex-direction: column;gap: 10px;}
+.room-modal {display: none;}
+.interview-info span {width: fit-content; padding: 5px 10px;border-radius: 10px;font-size: 15px; background-color: var(--blue-500);color: white;font-weight: bold;}
+.company-grid {display: grid;grid-template-columns: repeat(8, 1fr);gap: 20px;}

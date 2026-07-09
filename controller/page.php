@@ -15,7 +15,9 @@ get("/recruit/{idx}", function ($idx) {
 get("/room/{idx}", function ($idx) {
   views("room", ["idx" => $idx]);
 });
-
+get("/admin", function() {
+  views("admin");
+});
 get("/api/companys", function () {
   extract($_GET);
   $companys = db::fetchAll("select * from companys where year(date) = $year and month(date) = $month order by date asc");
@@ -174,4 +176,13 @@ get("/exitRoom/{idx}", function ($idx) {
   $user = ss();
   db::exec("delete from room_peoples where room_idx = '$idx' and user_idx = '$user->idx'");
   move("/recruit/$room->company_idx");
+});
+post("/updateImage", function() {
+  extract($_GET);
+  $file = $_FILES["file"];
+  $image = $file["name"];
+  if(move_uploaded_file($file["tmp_name"], "./asset/images/$image")) {
+    db::exec("update companys set image = '$image' where idx = '$idx'");
+    echo json_encode($image);
+  }
 });

@@ -41,6 +41,9 @@ $user = ss();
           <li><a href="/recruit">온라인채용면접</a></li>
           <li><a href="#gallery">우수기업</a></li>
           <li><a href="#">채용공고</a></li>
+          <?php if($user->type == 1) { ?>
+            <li><a href="/admin">관리자</a></li>
+          <?php } ?>
         </ul>
         <div class="nav__auth">
           <a href="#login" class="btn btn--ghost">로그인</a>
