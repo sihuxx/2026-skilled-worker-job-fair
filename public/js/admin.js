@@ -2,6 +2,11 @@ const canvas = $(".paints")
 const chatContent = $(".chats")
 const ctx = canvas.getContext('2d')
 
+const companys = $$(".company-list .company")
+const dragZone = $(".banner-grid")
+const bannersObject = $$(".banner-grid .banner")
+let banners = {}
+
 async function openRoomModal(roomIdx) {
   openModal('room-modal')
   const paints = await fetch(`/api/paints?idx=${roomIdx}`).then(res => res.json())
@@ -26,11 +31,64 @@ async function openRoomModal(roomIdx) {
   }).join("")
 }
 
-function overTooltip(e) {
-  const tooltip = $(".tooltip")
-  const name = e.dataset.name
-  tooltip.style.display = 'block'
-  tooltip.textContent = name
-  tooltip.style.left = e.offsetLeft  + "px"
-  tooltip.style.top = e.offsetTop + "px"
+
+companys.forEach((company, i) => {
+  company.setAttribute("draggable", true)
+  company.ondragstart = e => {
+    e.dataTransfer.setData("idx", company.dataset.idx)
+
+  }
+})
+dragZone.ondragover = e => e.preventDefault()
+dragZone.ondrop = (e) => {
+  const idx = e.dataTransfer.getData("idx")
+
+  const bannerValues = Object.values(banners)
+  const droppedIndex = bannersObject.indexOf(e.target)
+
+  const type = e.dataTransfer.getData('type');
+  const alreadyExists = bannerValues.some(ban => ban == idx);
+
+  if (type === 'from-template' && alreadyExists) {
+    banners = Object.entries(banners).reduce((arr, [droppedIndex, companyIdx]) => {
+      if (companyIdx === idx) {
+        return arr
+      } else {
+        return {...arr, droppedIndex: companyIdx}
+      }
+    }, {})
+  } else if (alreadyExists) {
+    return;
+  }
+
+  
+
+  banners[droppedIndex] = idx
+
+  bannerRender(droppedIndex, idx)
 }
+bannersObject.forEach((banner, i) => {
+  banner.setAttribute("draggable", true)
+  banner.ondragstart = e => {
+     const idx = banner.querySelector('img').dataset.idx
+    e.dataTransfer.setData("idx", idx)
+  }
+})
+
+async function bannerRender(droppedIndex, idx) {
+  const res = await fetch(`/api/companyImage/${idx}`).then(res => res.json())
+  $('.banner-grid').innerHTML = reduce()
+  bannersObject[droppedIndex].innerHTML = `<img class="draggable-image" data-idx="${idx}" draggable="true" src="/asset/images/${res.image}">`
+}
+
+// const variable = Boolean({});
+// // truthy
+
+// // falsy 
+
+document.addEventListener('dragstart', (e) => {
+  if (e.target.matches('.draggable-image')) {
+    e.dataTransfer.setData('idx', e.target.dataset.idx);
+    e.dataTransfer.setData('type', 'from-template');
+  }
+})

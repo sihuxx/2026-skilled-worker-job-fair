@@ -46,16 +46,36 @@ $companys = db::fetchAll("select * from companys order by date, start_time")
         <h3>등록 기업 리스트</h3>
         <div class="company-grid">
             <?php foreach ($companys as $company) { ?>
-                <div class="company" onmouseover="overTooltip(this)" data-name="<?= $company->name ?>"><img src="/asset/images/<?= $company->image ?>" alt=""></div>
+                <div class="company" data-idx="<?= $company->idx ?>" onmouseover="overTooltip(this)" data-name="<?= $company->name ?>"><img src="/asset/images/<?= $company->image ?>" alt=""></div>
             <?php } ?>
             <div class="tooltip"></div>
         </div>
     </div>
     <div class="banner-content">
         <h3>배너 관리 리스트</h3>
-
+        <div class="banner-head">
+            <button class="reset-btn">초기화</button>
+            <button class="save-btn">저장</button>
+        </div>
+        <div class="banner-grid">
+            <div class="banner" data-idx="1"></div>
+            <div class="banner" data-idx="2"></div>
+            <div class="banner" data-idx="3"></div>
+            <div class="banner" data-idx="4"></div>
+            <div class="banner" data-idx="5"></div>
+            <div class="banner" data-idx="6"></div>
+            <div class="banner" data-idx="7"></div>
+            <div class="banner" data-idx="8"></div>
+            <div class="banner" data-idx="9"></div>
+            <div class="banner" data-idx="10"></div>
+            <div class="banner" data-idx="11"></div>
+            <div class="banner" data-idx="12"></div>
+            <div class="banner" data-idx="13"></div>
+            <div class="banner" data-idx="14"></div>
+            <div class="banner" data-idx="15"></div>
+        </div>
     </div>
 </section>
 
 <script src="/js/lib.js"></script>
-<script src="/js/admin.js"></script>
+<script src="/js/admin.js" type="module"></script>

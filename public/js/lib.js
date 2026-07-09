@@ -43,3 +43,11 @@ function downloadFiles(image) {
         newEl("a", { href: `/asset/notices/${file}`, download: file }).click()
     })
 }
+function overTooltip(e) {
+  const tooltip = $(".tooltip")
+  const name = e.dataset.name
+  tooltip.style.display = 'block'
+  tooltip.textContent = name
+  tooltip.style.left = e.offsetLeft + "px"
+  tooltip.style.top = e.offsetTop + "px"
+}
