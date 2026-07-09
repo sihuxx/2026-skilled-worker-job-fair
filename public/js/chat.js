@@ -73,7 +73,10 @@ setInterval(async () => {
 }, 30)
 
 setInterval(async () => {
-  const users = await fetch(`/api/roomUsers?idx=${roomIdx}`).then(res => res.json())
+  const users = await fetch(`/api/roomUsers?idx=${roomIdx
+
+    
+  }`).then(res => res.json())
   memberList.innerHTML = users.map(user => {
     return `<div class="user">
             <span>${user.type == 1 ? '관리자' : '일반회원'}</span>

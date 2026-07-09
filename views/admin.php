@@ -8,8 +8,10 @@ $companys = db::fetchAll("select * from companys order by date, start_time")
         <div class="interview-grid">
             <?php foreach ($companys as $company) {
                 $room = db::fetch("select * from rooms where company_idx = '$company->idx'");
-                $room_paints = db::fetchAll("select * from room_paints where room_idx = '$room->idx'");
-                $room_chats = db::fetchAll("select * from room_chats where room_idx = '$room->idx' order by date");
+                if ($room) {
+                    $room_paints = db::fetchAll("select * from room_paints where room_idx = '$room->idx'");
+                    $room_chats = db::fetchAll("select * from room_chats where room_idx = '$room->idx' order by date");
+                }
             ?>
                 <div class="interview">
                     <img src="/asset/images/<?= $company->image ?>">
@@ -19,16 +21,25 @@ $companys = db::fetchAll("select * from companys order by date, start_time")
                         <p><?= $company->des ?></p>
                         <p><?= $company->date ?></p>
                         <p><?= $company->start_time ?> ~ <?= $company->end_time ?></p>
-                        <button <?= $room ? "" : "disabled" ?>>대화방 로그</button>
-                    </div>
-                </div>
-                <div class="room-modal">
-                    <div class="room-content">
-                        <canvas class="paints"></canvas>
-                        <div class="chats"></div>
+                        <?php if ($room) { ?>
+                            <button onclick="openRoomModal(<?= $room->idx ?>)">대화방 로그</button>
+                        <?php } else { ?>
+                            <button disabled>대화방 로그</button>
+                        <?php } ?>
                     </div>
                 </div>
             <?php } ?>
+            <div class="room-modal modal">
+                <div class="room">
+                    <div class="modal-head">
+                        <button onclick="hideModal('room-modal')">닫기</button>
+                    </div>
+                    <div class="room-content">
+                        <canvas width="380" height="560" class="paints"></canvas>
+                        <div class="chats"></div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <div class="company-list">
@@ -44,3 +55,6 @@ $companys = db::fetchAll("select * from companys order by date, start_time")
 
     </div>
 </section>
+
+<script src="/js/lib.js"></script>
+<script src="/js/admin.js"></script>
