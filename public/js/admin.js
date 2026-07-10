@@ -3,11 +3,11 @@ const chatContent = $(".chats")
 const ctx = canvas.getContext('2d')
 const companyList = await fetch(`/api/allCompany`).then(res => res.json())
 
-const companysEl = $$(".company-list .company")
-const dragZoneEl = $(".banner-grid")
-const bannerEl = $$(".banner-grid .banner")
+const $companys = $$(".company-list .company")
+const $dragZone = $(".banner-grid")
+const $banner = $$(".banner-grid .banner")
 
-let banners = {}
+let banners = Array(15).fill(null)
 
 async function openRoomModal(roomIdx) {
   openModal('room-modal')
@@ -33,54 +33,66 @@ async function openRoomModal(roomIdx) {
   }).join("")
 }
 
-companysEl.forEach((company, i) => {
+$companys.forEach((company, i) => {
   company.setAttribute("draggable", true)
   company.ondragstart = e => {
     e.dataTransfer.setData("idx", company.dataset.idx)
+    e.dataTransfer.setData('type', 'from-list');
   }
 })
 
 document.addEventListener('dragstart', (e) => {
   if (e.target.matches('.draggable-image')) {
     e.dataTransfer.setData('idx', e.target.dataset.idx);
-    e.dataTransfer.setData('type', 'from-template');
+    e.dataTransfer.setData('type', 'from-banner');
   }
 })
 
-dragZoneEl.ondragover = e => e.preventDefault()
-dragZoneEl.ondrop = (e) => {
-  const companyIdx = e.dataTransfer.getData("idx")
-  const type = e.dataTransfer.getData('type');
+$dragZone.ondragover = e => e.preventDefault()
 
-  const companyIdxsArr = Object.values(banners) // 지금까지 배너에 추가한 기업들 idx
-  const droppedIndex = bannerEl.indexOf(e.target.closest(".banner"))
-  const alreadyExists = companyIdxsArr.some(ban => ban == companyIdx);
+$banner.forEach((box, dropIndex) => {
+  box.ondragover = e => e.preventDefault()
 
-  // 드롭한 영역의 기업 인덱스와 현재 드롭한 기업이 인덱스가 같으면 리턴
-  if (banners[droppedIndex] == companyIdx) return
+  box.ondrop = e => {
+    e.preventDefault()
+    e.stopPropagation()
 
-  // 지금까지 배너에 추가한 기업 인덱스 중 현재 드롭한 기업의 인덱스가 존재하는지 판단 (Boolean)
-  if (type === 'from-template' && alreadyExists) { // 만약 배너 grid 내에서 드래그 앤 드롭 했고, 인덱스가 존재하면
-    banners = Object.entries(banners).reduce((arr, [dropIdx, comIdx]) => {
-      if (comIdx === companyIdx) { // 만약 드롭한 기업 idx가 순회 돈 기업 idx 와 같으면
-        return arr // 해당 누적은 건너뜀
-      } else { // 드롭한 각 기업 idx가 다르면
-        return { ...arr, [dropIdx]: comIdx } // 그대로 반환 (스프레드)
+    const idx = e.dataTransfer.getData("idx") 
+    const type = e.dataTransfer.getData("type")
+    if (!idx) return
+
+    const from = banners.findIndex(b => b == idx)
+    if (from === dropIndex) return
+
+    if (type === "from-list" && from !== -1) {
+      alert("중복된 기업입니다")
+      return
+    }
+
+    if (from !== -1) {
+      banners[from] = banners[dropIndex]
+      banners[dropIndex] = idx
+    } else {
+      if (banners[dropIndex] != null) {
+        banners.splice(dropIndex, 0, idx)
+        banners = banners.slice(0, 15)
+      } else {
+        banners[dropIndex] = idx
       }
-    }, {})
-  } else if (alreadyExists) { // 만약 중복값이면
-    return; // 종료
-  }
+    }
 
-  banners[droppedIndex] = companyIdx // 배너들에 현재 드롭한 요소 추가함
-  bannerRender(companyIdx)
-}
+    bannerRender()
+  }
+})
 
 async function bannerRender(idx) {
-  bannerEl.forEach((box, i) => {
-    const idx = banners[i]
-    if (!idx) { box.innerHTML = ""; return; }
-    const company = companyList.find(c => c.idx == idx)
-    box.innerHTML = `<img class="draggable-image" data-idx="${idx}" draggable="true" src="/asset/images/${company.image}">`
+  $banner.forEach((box, i) => {
+    const companyIdx = banners[i]
+    if (!companyIdx) { box.innerHTML = ""; return; }
+    const company = companyList.find(c => c.idx == companyIdx)
+    box.innerHTML = `
+    <img class="draggable-image" data-idx="${companyIdx}" draggable="true" src="/asset/images/${company.image}">
+    
+    `
   })
 }
