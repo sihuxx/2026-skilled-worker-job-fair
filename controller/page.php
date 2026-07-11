@@ -190,3 +190,6 @@ post("/updateImage", function() {
     echo json_encode($image);
   }
 });
+post("/saveBanner", function() {
+  extract($_POST);
+});

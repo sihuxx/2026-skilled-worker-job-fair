@@ -92,7 +92,23 @@ async function bannerRender(idx) {
     const company = companyList.find(c => c.idx == companyIdx)
     box.innerHTML = `
     <img class="draggable-image" data-idx="${companyIdx}" draggable="true" src="/asset/images/${company.image}">
-    
+    <p>${company.name}</p>    
+    <button class="delete-btn"  data-idx="${companyIdx}">삭제</button>
     `
+    box.querySelector(".delete-btn").onclick = () => {
+      banners[i] = null
+      bannerRender()
+    }
+  })
+}
+
+$(".save-btn").onclick = async => {
+  const formData = new FormData()
+  banners.filter(b => b != null).forEach(idx => {
+    formData.append("banners[]", idx)
+  })
+  await fetch("/saveBanner", {
+    method: "post",
+    body: formData
   })
 }
