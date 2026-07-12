@@ -56,6 +56,14 @@ get("/api/companyRooms", function () {
   $rooms = db::fetch("select * from rooms where company_idx = '$idx'");
   echo json_encode($rooms);
 });
+get("/api/banners", function() {
+  $banners = db::fetchAll('select * from banners order by position asc');
+  echo json_encode($banners);
+});
+get("/api/mainBanners", function() {
+  $banners = db::fetchAll("select c.*, b.company_idx from banners b inner join companys c on b.company_idx = c.idx");
+  echo json_encode($banners);
+});
 post("/login", function () {
   extract($_POST);
   $user = db::fetch("select * from users where id = '$id'");
@@ -190,6 +198,10 @@ post("/updateImage", function() {
     echo json_encode($image);
   }
 });
-post("/saveBanner", function() {
+post("/saveBanners", function() {
   extract($_POST);
+  db::exec("delete from banners");
+  foreach($banners as $position => $companyIdx){
+    db::exec("insert into banners (position, company_idx) values ('$position', '$companyIdx')");
+  }
 });

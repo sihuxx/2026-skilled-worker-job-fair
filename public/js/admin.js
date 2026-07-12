@@ -8,6 +8,17 @@ const $dragZone = $(".banner-grid")
 const $banner = $$(".banner-grid .banner")
 
 let banners = Array(15).fill(null)
+let saved = []
+
+async function loadBanners() {
+  const rows = await fetch("/api/banners").then(res => res.json())
+  banners = Array(15).fill(null)
+  rows.forEach((row, i) => {
+    banners[i] = String(row.company_idx)
+  })
+  saved = [...banners]
+  bannerRender()
+}
 
 async function openRoomModal(roomIdx) {
   openModal('room-modal')
@@ -57,7 +68,7 @@ $banner.forEach((box, dropIndex) => {
     e.preventDefault()
     e.stopPropagation()
 
-    const idx = e.dataTransfer.getData("idx") 
+    const idx = e.dataTransfer.getData("idx")
     const type = e.dataTransfer.getData("type")
     if (!idx) return
 
@@ -102,13 +113,23 @@ async function bannerRender(idx) {
   })
 }
 
-$(".save-btn").onclick = async => {
+$(".save-btn").onclick = async () => {
   const formData = new FormData()
   banners.filter(b => b != null).forEach(idx => {
     formData.append("banners[]", idx)
   })
-  await fetch("/saveBanner", {
+  await fetch("/saveBanners", {
     method: "post",
     body: formData
   })
+
+  saved = [...banners]
+  alert("저장되었습니다")
 }
+
+$(".reset-btn").onclick = () => {
+  banners = [...saved]
+  bannerRender()
+}
+
+loadBanners()
